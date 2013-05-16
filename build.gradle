@@ -1,4 +1,19 @@
+group = 'de.mfo.surfer'
+version = '2.0.0'
+
 apply from: 'https://repository-javafx-gradle-plugin.forge.cloudbees.com/snapshot/javafx.plugin'
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/groups/public/" }    
+    maven { url "http://download.tuxfamily.org/arakhne/maven" }
+    maven { url "https://raw.github.com/IMAGINARY/maven-repository/master/" }
+}
+
+dependencies {
+    compile group: 'de.mfo.jsurf', name: 'jsurf', version: '0.0.737'
+    compile group: 'org.jfxtras', name: 'jfxtras-labs', version: '2.2-r5-SNAPSHOT'     	 	
+}
 
 task wrapper(type: Wrapper) {
 	gradleVersion = '1.3'
