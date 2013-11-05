@@ -12,7 +12,8 @@ repositories {
 
 dependencies {
     compile group: 'de.mfo.jsurf', name: 'jsurf', version: '0.0.737'
-    compile group: 'org.jfxtras', name: 'jfxtras-labs', version: '2.2-r5-SNAPSHOT'     	 	
+    compile group: 'org.jfxtras', name: 'jfxtras-labs', version: '2.2-r5'
+    compile group: 'org.swinglabs', name: 'pdf-renderer', version: '1.0.5'
 }
 
 task wrapper(type: Wrapper) {
