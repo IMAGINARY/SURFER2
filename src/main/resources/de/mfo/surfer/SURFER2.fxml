@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<children><VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<children><BorderPane prefHeight="200.0" prefWidth="200.0">
+<right><HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+<children><Slider orientation="VERTICAL" /><Slider orientation="VERTICAL" /><Slider orientation="VERTICAL" /><Slider orientation="VERTICAL" />
+</children></HBox>
+</right>
+<left><TabPane prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml">
+  <tabs>
+    <Tab text="Untitled Tab 1">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
+    <Tab text="Untitled Tab 2">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
+</left>
+<center><Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff0000;" />
+</center></BorderPane><HBox prefHeight="100.0" prefWidth="200.0">
+<children><FlowPane prefHeight="200.0" prefWidth="200.0">
+<children><Button mnemonicParsing="false" text="Button" /><Button mnemonicParsing="false" text="Button" /><Button mnemonicParsing="false" text="Button" /><MenuButton mnemonicParsing="false" text="MenuButton" xmlns:fx="http://javafx.com/fxml">
+  <items>
+    <MenuItem mnemonicParsing="false" text="Action 1" />
+    <MenuItem mnemonicParsing="false" text="Action 2" />
+  </items>
+</MenuButton>
+</children></FlowPane><HBox prefHeight="100.0" prefWidth="200.0">
+<children><TextField />
+</children></HBox>
+</children></HBox>
+</children></VBox>
+</children></AnchorPane>
