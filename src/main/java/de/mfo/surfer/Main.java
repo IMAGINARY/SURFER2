@@ -97,8 +97,8 @@ public class Main extends Application {
         );
 
         WebView browser = new WebView();
-        browser.setFontSmoothingType( FontSmoothingType.GRAY );
-        browser.getEngine().load( "file:///home/stussak/Downloads/pdf2svgtest.svg" );
+        //browser.setFontSmoothingType( FontSmoothingType.GRAY );
+        browser.getEngine().load( "http://www.mathjax.org/demos/scaling-math/" );
         
         
         buttons.prefWidthProperty().bind( scaledPane.widthProperty() );
