@@ -8,6 +8,9 @@ import javafx.scene.Group;
 import javafx.scene.layout.Region;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.Tab;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +26,8 @@ import javafx.event.EventType;
 import javafx.scene.text.FontSmoothingType;
 import javafx.scene.image.*;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import jfxtras.labs.scene.layout.ScalableContentPane;
  
@@ -47,32 +52,65 @@ public class Main extends Application {
     
     private Scene scene;
     
-    public static void main(String[] args) {
-        launch(args);
+    private Node createBrowser()
+    {
+        WebView browser = new WebView();
+        browser.setFontSmoothingType( FontSmoothingType.GRAY );
+        browser.getEngine().load( "http://www.mathjax.org/demos/tex-samples/" );
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter( browser );
+
+        return borderPane;
     }
-    
-    @Override
-    public void start(Stage primaryStage) {
+
+    private Node createPDFViewer()
+    {
+        URL pdfURL;
+        try
+        {
+            pdfURL = this.getClass().getResource("geometry.pdf");
+        }
+        catch( Exception e )
+        {
+            pdfURL = null;
+        }
         
+        PDFImageView pdfIV = null;
+        try
+        {
+            pdfIV = new PDFImageView( pdfURL );
+        }
+        catch( IOException ioe )
+        {
+            System.err.println( ioe );
+            pdfIV = null;
+        }
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter( pdfIV );
+
+        return borderPane;
+    }
+
+    private Node createScalableLayout()
+    {
         Font.loadFont( this.getClass().getResource("NimbusSanL-Regu-Surfer.ttf").toExternalForm(), 12.0 );
         
-        primaryStage.setTitle( "SURFER 2" );
+        final ScalableContentPane scaledPane = new ScalableContentPane();
+
         Button btn = new Button();
         btn.setText( "CSS" );
         btn.setOnAction(new EventHandler<ActionEvent>() { 
             @Override
             public void handle(ActionEvent event) {
                 System.err.println("Adding stylesheet");
-                String cssUrl = "file:/media/DATA/IMAGINARY/SURFER2/src/main/resources/de/mfo/surfer/surfer.css";
-                System.out.println( scene.getStylesheets().size() );
+
+                String cssUrl = this.getClass().getResource( "surfer.css" ).toExternalForm();
                 scene.getStylesheets().removeAll( cssUrl );
                 scene.getStylesheets().add( cssUrl );
-                System.out.println( scene.getStylesheets().size() );
-                //scene.getStylesheets().add( this.getClass().getResource( "surfer.css" ).toExternalForm() );
             }
         });
-        
-        final ScalableContentPane scaledPane = new ScalableContentPane();
         
         scaledPane.setStyle("-fx-background-color: green;");
         Pane root = scaledPane.getContentPane();
@@ -102,6 +140,8 @@ public class Main extends Application {
             buttons.getChildren().add( b );
         }
         
+        buttons.prefWidthProperty().bind( scaledPane.widthProperty() );
+
         //borderPane.setBottom( formulaAndButtons );
         
         //root.getChildren().add(borderPane);
@@ -117,58 +157,37 @@ public class Main extends Application {
             }
         );
 
-        WebView browser = new WebView();
-        browser.setFontSmoothingType( FontSmoothingType.GRAY );
-        browser.getEngine().load( "http://www.mathjax.org/demos/tex-samples/" );
-        
-        URL pdfURL;
-        try
-        {
-            pdfURL = new URL( "file:///home/stussak/Downloads/geometry_uncompressed.pdf" );//ftp://ftp.fu-berlin.de/tex/CTAN/macros/latex/contrib/geometry/geometry.pdf" );
-        }
-        catch( Exception e )
-        {
-            pdfURL = null;
-        }
-        
-        PDFImageView pdfIV = null;
-        try
-        {
-            pdfIV = new PDFImageView( pdfURL );
-        }
-        catch( IOException ioe )
-        {
-            System.err.println( ioe );
-            pdfIV = null;
-        }
-        /*        
-        WritableImage pdfImg = SwingFXUtils.toFXImage( PDFStuff.renderPDF( pdfURL, "Examples", 800, 600 ), null );
-        ImageView iv = new ImageView();
-        iv.setImage( pdfImg );
-        Group ivg = new Group();
-        ivg.getChildren().add( iv );*/
-        
-        BorderPane border = new BorderPane();
-        //HBox hb1 = new HBox();
-        //hb1.setStyle( "-fx-background-color: green;" );
-        //border.setCenter( hb1 );
-        //hb1.getChildren().add( pdfIV );
->>>>>>> 8f37c0805cba60e3d2c76636cc77a6c3fd9751da
-        
-        /*
-        hb1.getChildren().add( pdfIV );
-        border.setTop( hb1 );
-*/
-        
-        border.setCenter( pdfIV );
-        
-        buttons.prefWidthProperty().bind( scaledPane.widthProperty() );
-        
-        //scene = new Scene(scaledPane, 300, 200);
-        //scene = new Scene(browser, 800, 600);
-        scene = new Scene( border, 800, 600);
+        return scaledPane;
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+    @Override
+    public void start(Stage primaryStage) { 
+        primaryStage.setTitle( "SURFER 2 Tests" );   
+
+        TabPane tabPane = new TabPane();
+        Tab tab;
+
+        tab = new Tab();
+        tab.setText( "Web browser" );
+        tab.setContent( createBrowser() );
+        tabPane.getTabs().add(tab);
+
+        tab = new Tab();
+        tab.setText( "PDF viewer" );
+        tab.setContent( createPDFViewer() );
+        tabPane.getTabs().add(tab);
+
+        tab = new Tab();
+        tab.setText( "Scalable layout" );
+        tab.setContent( createScalableLayout() );
+        tabPane.getTabs().add(tab);
+
+        scene = new Scene(tabPane, 800, 600);
         primaryStage.setScene( scene );
-        scene.getStylesheets().add( this.getClass().getResource( "surfer.css" ).toExternalForm() );
         primaryStage.show();
     }
 }
